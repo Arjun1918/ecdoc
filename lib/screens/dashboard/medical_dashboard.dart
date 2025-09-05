@@ -1,3 +1,6 @@
+import 'package:ecdoc/constants/widgets/custom_appbar.dart';
+import 'package:ecdoc/utils/app_theme.dart';
+import 'package:ecdoc/utils/routes/app_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -15,135 +18,28 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // Initialize ScreenUtil
     ScreenUtil.init(
       context,
-      designSize: const Size(1280, 800), // Typical tablet size
+      designSize: Size(1280, 800),
       minTextAdapt: true,
       splitScreenMode: true,
     );
-
     return Scaffold(
-      backgroundColor: const Color(0xFFF8F9FA),
+      backgroundColor: AppTheme.appbackground,
+      appBar: CustomAppBar(),
       body: SafeArea(
         child: Column(
           children: [
-            _buildHeader(),
             _buildFilterSection(),
             Expanded(
               child: Row(
                 children: [
-                  Expanded(flex: 3, child: _buildLeftPanel()),
+                  Expanded(flex: 3, child: buildLeftPanel()),
                   Expanded(flex: 2, child: _buildRightPanel()),
                 ],
               ),
             ),
           ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildHeader() {
-    return Container(
-      padding: EdgeInsets.all(16.w),
-      color: Colors.white,
-      child: Row(
-        children: [
-          // Logo
-          Image.asset(
-            "assets/images/logo.jpeg", // change to your image path
-            width: 100.w,
-            height: 60.h,
-            fit: BoxFit.contain,
-          ),
-          SizedBox(width: 24.w),
-
-          // Status Toggle
-          Container(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(20.r),
-              border: Border.all(color: Colors.grey.shade300),
-            ),
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Container(
-                  padding: EdgeInsets.symmetric(
-                    horizontal: 16.w,
-                    vertical: 12.h,
-                  ),
-                  decoration: BoxDecoration(
-                    color: const Color(0xFF4CAF50),
-                    borderRadius: BorderRadius.circular(20.r),
-                  ),
-                  child: Text(
-                    'In',
-                    style: TextStyle(color: Colors.white, fontSize: 14.sp),
-                  ),
-                ),
-                Container(
-                  padding: EdgeInsets.symmetric(
-                    horizontal: 16.w,
-                    vertical: 8.h,
-                  ),
-                  child: Text(
-                    'Out',
-                    style: TextStyle(color: Colors.grey, fontSize: 14.sp),
-                  ),
-                ),
-              ],
-            ),
-          ),
-
-          const Spacer(),
-
-          // Navigation buttons
-          _buildNavButton('Book appointment', const Color(0xFF4DD0E1), true),
-          SizedBox(width: 8.w),
-          _buildNavButton('Dashboard', const Color(0xFF00BCD4), false),
-          SizedBox(width: 8.w),
-          _buildNavButton('Patient', Colors.transparent, false),
-          SizedBox(width: 8.w),
-          _buildNavButton('Chat', Colors.transparent, false),
-          SizedBox(width: 8.w),
-          _buildNavButton('Report', Colors.transparent, false),
-          SizedBox(width: 8.w),
-          _buildNavButton('Wallet', Colors.transparent, false),
-
-          SizedBox(width: 16.w),
-          Icon(Icons.settings, color: Colors.grey, size: 24.sp),
-          SizedBox(width: 16.w),
-          Icon(Icons.notifications_outlined, color: Colors.grey, size: 24.sp),
-          SizedBox(width: 16.w),
-
-          // Profile
-          CircleAvatar(
-            radius: 18.r,
-            backgroundImage: const NetworkImage(
-              'https://images.pexels.com/photos/2379004/pexels-photo-2379004.jpeg',
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildNavButton(String text, Color color, bool isRounded) {
-    return Container(
-      padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
-      decoration: BoxDecoration(
-        color: color,
-        borderRadius: BorderRadius.circular(isRounded ? 20.r : 4.r),
-      ),
-      child: Text(
-        text,
-        style: TextStyle(
-          color: color == Colors.transparent
-              ? Colors.grey.shade700
-              : Colors.white,
-          fontWeight: FontWeight.w500,
-          fontSize: 18.sp,
         ),
       ),
     );
@@ -155,17 +51,14 @@ class _DashboardScreenState extends State<DashboardScreen> {
       color: Colors.white,
       child: Row(
         children: [
-          // Date filters
           _buildDateButton('Today', true),
           SizedBox(width: 8.w),
           _buildDateButton('Tomorrow', false),
           SizedBox(width: 8.w),
           _buildDateButton('📅 Custom Range', false),
-
           SizedBox(width: 24.w),
           Container(
             padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 8.h),
-
             child: DropdownButton<String>(
               value: selectedFilter,
               underline: const SizedBox(),
@@ -173,7 +66,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   .map(
                     (e) => DropdownMenuItem(
                       value: e,
-                      child: Text(e, style: TextStyle(fontSize: 14.sp)),
+                      child: Text(e, style: TextStyle(fontSize: 20.sp)),
                     ),
                   )
                   .toList(),
@@ -181,36 +74,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
             ),
           ),
           const Spacer(),
-          Container(
-            width: 300.w,
-            height: 44.h,
-            decoration: BoxDecoration(
-              color: Colors.grey.shade100,
-              borderRadius: BorderRadius.circular(12.r),
-              border: Border.all(color: Colors.grey.shade300, width: 1),
-            ),
-            child: TextField(
-              style: TextStyle(fontSize: 14.sp, color: Colors.black87),
-              decoration: InputDecoration(
-                hintText: 'Search articles',
-                hintStyle: TextStyle(
-                  color: Colors.grey.shade500,
-                  fontSize: 20.sp,
-                ),
-                prefixIcon: Icon(
-                  Icons.search,
-                  color: Colors.grey.shade600,
-                  size: 25.sp,
-                ),
-                border: InputBorder.none,
-                isDense: true, 
-                contentPadding: EdgeInsets.symmetric(
-                  vertical: 12.h,
-                  horizontal: 12.w,
-                ),
-              ),
-            ),
-          ),
         ],
       ),
     );
@@ -234,47 +97,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
     );
   }
 
-  Widget _buildLeftPanel() {
+  Widget buildLeftPanel() {
     return Container(
       margin: EdgeInsets.all(16.w),
       child: Column(
         children: [
-          SizedBox(
-            height: 44.h, // clean height
-            child: TextField(
-              decoration: InputDecoration(
-                hintText: 'Search patients...',
-                hintStyle: TextStyle(
-                  color: Colors.grey.shade500,
-                  fontSize: 20.sp,
-                ),
-                prefixIcon: Icon(
-                  Icons.search,
-                  color: Colors.grey.shade600,
-                  size: 22.sp,
-                ),
-                filled: true,
-                fillColor: Colors.grey.shade100, // soft background
-                contentPadding: EdgeInsets.symmetric(
-                  vertical: 0,
-                  horizontal: 12.w,
-                ),
-                enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(12.r),
-                  borderSide: BorderSide(color: Colors.grey.shade300, width: 1),
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(12.r),
-                  borderSide: BorderSide(
-                    color: Colors.blue.shade400,
-                    width: 1.5,
-                  ),
-                ),
-              ),
-            ),
-          ),
-
-          SizedBox(height: 16.h),
           Expanded(
             child: Container(
               padding: EdgeInsets.all(16.w),
@@ -284,6 +111,44 @@ class _DashboardScreenState extends State<DashboardScreen> {
               ),
               child: Column(
                 children: [
+                  SizedBox(
+                    height: 44.h,
+                    child: TextField(
+                      decoration: InputDecoration(
+                        hintText: 'Search patients...',
+                        hintStyle: TextStyle(
+                          color: Colors.grey.shade500,
+                          fontSize: 20.sp,
+                        ),
+                        prefixIcon: Icon(
+                          Icons.search,
+                          color: Colors.grey.shade600,
+                          size: 22.sp,
+                        ),
+                        filled: true,
+                        fillColor: Colors.white,
+                        contentPadding: EdgeInsets.symmetric(
+                          vertical: 0,
+                          horizontal: 12.w,
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12.r),
+                          borderSide: BorderSide(
+                            color: Colors.grey.shade300,
+                            width: 1,
+                          ),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12.r),
+                          borderSide: BorderSide(
+                            color: Colors.blue.shade400,
+                            width: 1.5,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 16.h),
                   _buildPatientCard(
                     'Sarah Johnson',
                     '9867675428',
@@ -324,101 +189,114 @@ class _DashboardScreenState extends State<DashboardScreen> {
     String type,
     String imageUrl,
   ) {
-    return Container(
-      padding: EdgeInsets.all(16.w),
-      decoration: BoxDecoration(
-        border: Border.all(color: Colors.grey.shade200),
-        borderRadius: BorderRadius.circular(8.r),
-      ),
-      child: Row(
-        children: [
-          CircleAvatar(radius: 25.r, backgroundImage: NetworkImage(imageUrl)),
-          SizedBox(width: 12.w),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+    return InkWell(
+      onTap: () {
+        Navigator.pushNamed(
+          context, AppRoutes.patientpage
+        );
+      },
+      child: Container(
+        padding: EdgeInsets.all(16.w),
+        decoration: BoxDecoration(
+          border: Border.all(color: Colors.grey.shade200),
+          borderRadius: BorderRadius.circular(8.r),
+        ),
+        child: Row(
+          children: [
+            CircleAvatar(radius: 25.r, backgroundImage: NetworkImage(imageUrl)),
+            SizedBox(width: 12.w),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    name,
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 20.sp,
+                    ),
+                  ),
+                  Text(
+                    phone,
+                    style: TextStyle(
+                      color: Colors.grey.shade600,
+                      fontSize: 20.sp,
+                    ),
+                  ),
+                  Text(
+                    mrNumber,
+                    style: TextStyle(
+                      color: Colors.grey.shade600,
+                      fontSize: 20.sp,
+                    ),
+                  ),
+                  SizedBox(height: 4.h),
+                  Row(
+                    children: [
+                      Container(
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 8.w,
+                          vertical: 2.h,
+                        ),
+                        decoration: BoxDecoration(
+                          color: isOnline
+                              ? const Color(0xFF2196F3)
+                              : const Color(0xFF9C27B0),
+                          borderRadius: BorderRadius.circular(12.r),
+                        ),
+                        child: Text(
+                          isOnline ? 'Online' : 'Offline',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 20.sp,
+                          ),
+                        ),
+                      ),
+                      SizedBox(width: 8.w),
+                      Text(
+                        type,
+                        style: TextStyle(
+                          color: Colors.grey.shade600,
+                          fontSize: 20.sp,
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+            Column(
               children: [
                 Text(
-                  name,
+                  time,
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
-                    fontSize: 16.sp,
+                    fontSize: 20.sp,
                   ),
                 ),
-                Text(
-                  phone,
-                  style: TextStyle(
-                    color: Colors.grey.shade600,
-                    fontSize: 12.sp,
+                SizedBox(height: 8.h),
+                Container(
+                  width: 30.w,
+                  height: 30.h,
+                  decoration: BoxDecoration(
+                    color: const Color(0xFF4CAF50),
+                    borderRadius: BorderRadius.circular(15.r),
                   ),
-                ),
-                Text(
-                  mrNumber,
-                  style: TextStyle(
-                    color: Colors.grey.shade600,
-                    fontSize: 12.sp,
-                  ),
-                ),
-                SizedBox(height: 4.h),
-                Row(
-                  children: [
-                    Container(
-                      padding: EdgeInsets.symmetric(
-                        horizontal: 8.w,
-                        vertical: 2.h,
-                      ),
-                      decoration: BoxDecoration(
-                        color: isOnline
-                            ? const Color(0xFF2196F3)
-                            : const Color(0xFF9C27B0),
-                        borderRadius: BorderRadius.circular(12.r),
-                      ),
-                      child: Text(
-                        isOnline ? 'Online' : 'Offline',
-                        style: TextStyle(color: Colors.white, fontSize: 12.sp),
-                      ),
-                    ),
-                    SizedBox(width: 8.w),
-                    Text(
-                      type,
+                  child: Center(
+                    child: Text(
+                      room,
                       style: TextStyle(
-                        color: Colors.grey.shade600,
-                        fontSize: 12.sp,
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20.sp,
                       ),
                     ),
-                  ],
+                  ),
                 ),
               ],
             ),
-          ),
-          Column(
-            children: [
-              Text(
-                time,
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14.sp),
-              ),
-              SizedBox(height: 8.h),
-              Container(
-                width: 30.w,
-                height: 30.h,
-                decoration: BoxDecoration(
-                  color: const Color(0xFF4CAF50),
-                  borderRadius: BorderRadius.circular(15.r),
-                ),
-                child: Center(
-                  child: Text(
-                    room,
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 12.sp,
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -426,121 +304,187 @@ class _DashboardScreenState extends State<DashboardScreen> {
   Widget _buildRightPanel() {
     return Container(
       margin: EdgeInsets.all(16.w),
-      child: Column(
-        children: [
-          SizedBox(
-            height: 200.h,
-            child: ListView(
-              scrollDirection: Axis.horizontal,
-              children: [
-                _buildNewsCard(
-                  'TOP 10 MEDICAL JOURNALS IN INDIA',
-                  'BBC News • 20 hours ago',
-                  'Constipation is a frequent adverse event associated with opioid for pain relief, less is known about...',
-                  'https://images.pexels.com/photos/4173251/pexels-photo-4173251.jpeg',
-                ),
-                _buildNewsCard(
-                  'Journal of the American Medical Association',
-                  'BBC News • 20 hours ago',
-                  'Constipation is a frequent adverse event associated with opioid for pain relief, less is known about...',
-                  'https://images.pexels.com/photos/3938023/pexels-photo-3938023.jpeg',
-                ),
-                _buildNewsCard(
-                  'Constipation is a frequent adverse event associated',
-                  'BBC News • 20 hours ago',
-                  'Constipation is a frequent adverse event associated with opioid for pain relief, less is known about...',
-                  'https://images.pexels.com/photos/4167541/pexels-photo-4167541.jpeg',
-                ),
-              ],
-            ),
-          ),
-
-          SizedBox(height: 16.h),
-
-          // Notifications
-          Container(
-            width: double.infinity,
-            padding: EdgeInsets.all(16.w),
-            decoration: BoxDecoration(
-              color: const Color(0xFFE3F2FD),
-              borderRadius: BorderRadius.circular(8.r),
-            ),
-            child: Text(
-              'You may have 10 additional Patients Today',
-              style: TextStyle(
-                color: const Color(0xFF1976D2),
-                fontWeight: FontWeight.w500,
-                fontSize: 14.sp,
+      child: SingleChildScrollView(
+        child: Column(
+          children: [
+            // News & Search Container
+            Container(
+              width: double.infinity,
+              padding: EdgeInsets.all(16.w),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(8.r),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.05),
+                    blurRadius: 8,
+                    offset: const Offset(0, 4),
+                  ),
+                ],
               ),
-              textAlign: TextAlign.center,
-            ),
-          ),
-
-          SizedBox(height: 8.h),
-
-          Container(
-            width: double.infinity,
-            padding: EdgeInsets.all(16.w),
-            decoration: BoxDecoration(
-              color: const Color(0xFFE8F5E8),
-              borderRadius: BorderRadius.circular(8.r),
-            ),
-            child: Text(
-              'You have a Meeting On Friday 10th June, 2022 @ 2:30PM',
-              style: TextStyle(
-                color: const Color(0xFF388E3C),
-                fontWeight: FontWeight.w500,
-                fontSize: 14.sp,
+              child: Column(
+                children: [
+                  SizedBox(
+                    height: 44.h,
+                    child: TextField(
+                      decoration: InputDecoration(
+                        hintText: 'Search  articles',
+                        hintStyle: TextStyle(
+                          color: Colors.grey.shade500,
+                          fontSize: 20.sp,
+                        ),
+                        prefixIcon: Icon(
+                          Icons.search,
+                          color: Colors.grey.shade600,
+                          size: 22.sp,
+                        ),
+                        filled: true,
+                        fillColor: Colors.white,
+                        contentPadding: EdgeInsets.symmetric(
+                          vertical: 0,
+                          horizontal: 12.w,
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12.r),
+                          borderSide: BorderSide(
+                            color: Colors.grey.shade300,
+                            width: 1,
+                          ),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12.r),
+                          borderSide: BorderSide(
+                            color: Colors.blue.shade400,
+                            width: 1.5,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 16.h),
+                  SizedBox(
+                    height: 200.h,
+                    child: ListView(
+                      scrollDirection: Axis.horizontal,
+                      children: [
+                        _buildNewsCard(
+                          'TOP 10 MEDICAL JOURNALS IN INDIA',
+                          'BBC News • 20 hours ago',
+                          'Constipation is a frequent adverse event associated with opioid for pain relief, less is known about...',
+                          'https://images.pexels.com/photos/4173251/pexels-photo-4173251.jpeg',
+                        ),
+                        _buildNewsCard(
+                          'Journal of the American Medical Association',
+                          'BBC News • 20 hours ago',
+                          'Constipation is a frequent adverse event associated with opioid for pain relief, less is known about...',
+                          'https://images.pexels.com/photos/3938023/pexels-photo-3938023.jpeg',
+                        ),
+                        _buildNewsCard(
+                          'Constipation is a frequent adverse event associated',
+                          'BBC News • 20 hours ago',
+                          'Constipation is a frequent adverse event associated with opioid for pain relief, less is known about...',
+                          'https://images.pexels.com/photos/4167541/pexels-photo-4167541.jpeg',
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
               ),
-              textAlign: TextAlign.center,
             ),
-          ),
-
-          SizedBox(height: 8.h),
-
-          Container(
-            width: double.infinity,
-            padding: EdgeInsets.all(16.w),
-            decoration: BoxDecoration(
-              color: const Color(0xFFE8EAF6),
-              borderRadius: BorderRadius.circular(8.r),
-            ),
-            child: Text(
-              'You have an upcoming holiday on 13th June, 2022',
-              style: TextStyle(
-                color: const Color(0xFF3F51B5),
-                fontWeight: FontWeight.w500,
-                fontSize: 14.sp,
+            SizedBox(height: 16.h),
+            Container(
+              width: double.infinity,
+              padding: EdgeInsets.all(16.w),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(12.r),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.05),
+                    blurRadius: 8,
+                    offset: const Offset(0, 4),
+                  ),
+                ],
               ),
-              textAlign: TextAlign.center,
-            ),
-          ),
-
-          SizedBox(height: 8.h),
-
-          Container(
-            width: double.infinity,
-            padding: EdgeInsets.all(16.w),
-            decoration: BoxDecoration(
-              color: const Color(0xFFE8F5E8),
-              borderRadius: BorderRadius.circular(8.r),
-            ),
-            child: Text(
-              'You have an upcoming holiday on 13th June, 2022',
-              style: TextStyle(
-                color: const Color(0xFF388E3C),
-                fontWeight: FontWeight.w500,
-                fontSize: 14.sp,
+              child: Column(
+                children: [
+                  Container(
+                    width: double.infinity,
+                    padding: EdgeInsets.all(16.w),
+                    decoration: BoxDecoration(
+                      color: const Color(0xFFE3F2FD),
+                      borderRadius: BorderRadius.circular(8.r),
+                    ),
+                    child: Text(
+                      'You may have 10 additional Patients Today',
+                      style: TextStyle(
+                        color: const Color(0xFF1976D2),
+                        fontWeight: FontWeight.w500,
+                        fontSize: 16.sp,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                  SizedBox(height: 8.h),
+                  Container(
+                    width: double.infinity,
+                    padding: EdgeInsets.all(16.w),
+                    decoration: BoxDecoration(
+                      color: const Color(0xFFE8F5E8),
+                      borderRadius: BorderRadius.circular(8.r),
+                    ),
+                    child: Text(
+                      'You have a Meeting On Friday 10th June, 2022 @ 2:30PM',
+                      style: TextStyle(
+                        color: const Color(0xFF388E3C),
+                        fontWeight: FontWeight.w500,
+                        fontSize: 16.sp,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                  SizedBox(height: 8.h),
+                  Container(
+                    width: double.infinity,
+                    padding: EdgeInsets.all(16.w),
+                    decoration: BoxDecoration(
+                      color: const Color(0xFFE8EAF6),
+                      borderRadius: BorderRadius.circular(8.r),
+                    ),
+                    child: Text(
+                      'You have an upcoming holiday on 13th June, 2022',
+                      style: TextStyle(
+                        color: const Color(0xFF3F51B5),
+                        fontWeight: FontWeight.w500,
+                        fontSize: 16.sp,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                  SizedBox(height: 8.h),
+                  Container(
+                    width: double.infinity,
+                    padding: EdgeInsets.all(16.w),
+                    decoration: BoxDecoration(
+                      color: const Color(0xFFE8F5E8),
+                      borderRadius: BorderRadius.circular(8.r),
+                    ),
+                    child: Text(
+                      'You have an upcoming holiday on 13th June, 2022',
+                      style: TextStyle(
+                        color: const Color(0xFF388E3C),
+                        fontWeight: FontWeight.w500,
+                        fontSize: 16.sp,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                ],
               ),
-              textAlign: TextAlign.center,
             ),
-          ),
-
-          SizedBox(height: 24.h),
-
-          // Chart
-          Expanded(
-            child: Container(
+            SizedBox(height: 24.h),
+            Container(
+              height: 300.h,
               padding: EdgeInsets.all(16.w),
               decoration: BoxDecoration(
                 color: Colors.white,
@@ -699,8 +643,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 ],
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -746,7 +690,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   title,
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
-                    fontSize: 14.sp,
+                    fontSize: 12.sp,
                   ),
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,

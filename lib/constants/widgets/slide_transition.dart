@@ -4,8 +4,8 @@ class SlideTransitionRoute {
   static Route create({
     required RouteSettings settings,
     required Widget destination,
-    Duration duration = const Duration(milliseconds: 500),
-    Offset begin = const Offset(1.0, 0.0), 
+    Duration duration = const Duration(milliseconds: 300),
+    Offset begin = const Offset(1.0, 0.0), // from right to left
     Offset end = Offset.zero,
     Curve curve = Curves.easeInOut,
   }) {
@@ -13,15 +13,24 @@ class SlideTransitionRoute {
       settings: settings,
       pageBuilder: (context, animation, secondaryAnimation) => destination,
       transitionsBuilder: (context, animation, secondaryAnimation, child) {
-        var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
-        var offsetAnimation = animation.drive(tween);
+        // forward transition (push)
+        final tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+        final offsetAnimation = animation.drive(tween);
+
+        // reverse transition (pop)
+        final reverseTween = Tween(begin: end, end: begin).chain(CurveTween(curve: curve));
+        final reverseOffsetAnimation = secondaryAnimation.drive(reverseTween);
 
         return SlideTransition(
           position: offsetAnimation,
-          child: child,
+          child: SlideTransition(
+            position: reverseOffsetAnimation,
+            child: child,
+          ),
         );
       },
-      transitionDuration:const Duration(milliseconds: 200),
+      transitionDuration: duration,
+      reverseTransitionDuration: duration,
     );
   }
 }

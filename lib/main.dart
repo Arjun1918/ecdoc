@@ -1,9 +1,18 @@
+import 'package:ecdoc/provider/patient_page_provider.dart';
 import 'package:ecdoc/utils/routes/app_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => ConsultationProvider()),
+      ],
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -15,7 +24,6 @@ class MyApp extends StatelessWidget {
       designSize: const Size(1024, 768),
       minTextAdapt: true,
       splitScreenMode: true,
-
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'ECDOC',

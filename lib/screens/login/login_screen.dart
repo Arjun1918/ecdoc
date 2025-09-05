@@ -24,7 +24,7 @@ class _LoginScreenState extends State<LoginScreen> {
           // Left side - Image
           Expanded(
             flex: 1,
-            child: Container(
+            child: SizedBox(
               width: double.infinity,
               height: double.infinity,
               child: Image.asset('assets/images/login.png', fit: BoxFit.cover),
@@ -106,7 +106,6 @@ class _LoginScreenState extends State<LoginScreen> {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.stretch,
                               children: [
-                                // Username field
                                 SizedBox(height: 8.h),
                                 TextFormField(
                                   controller: _usernameController,
