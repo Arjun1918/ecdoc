@@ -170,7 +170,7 @@ class WalletScreen extends StatelessWidget {
           Container(
             padding: EdgeInsets.all(10.w),
             decoration: BoxDecoration(
-              color: iconColor.withOpacity(0.1),
+              color: iconColor.withValues(alpha: 0.1),
               borderRadius: BorderRadius.circular(12.r),
             ),
             child: Icon(icon, size: 32.sp, color: iconColor),
@@ -297,7 +297,7 @@ class WalletScreen extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      'ID: ' + data['patientId']!,
+                      'ID: ${data['patientId']!}',
                       style: TextStyle(fontSize: 13.sp, color: Colors.black45),
                     ),
                   ],

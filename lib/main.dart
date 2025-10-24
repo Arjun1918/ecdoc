@@ -1,8 +1,5 @@
-import 'package:ecdoc/provider/patient_page_provider.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'app/app.dart';
-import 'app/app_routes.dart';
 import 'features/auth/data/service_locator.dart';
 
 void main() {

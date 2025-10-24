@@ -3,7 +3,6 @@ import 'package:ecdoc/utils/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
-
 import '../../../core/widgets/custom_appbar.dart';
 
 class ConsultationPage extends StatelessWidget {
@@ -123,7 +122,7 @@ class ConsultationPage extends StatelessWidget {
         borderRadius: BorderRadius.circular(12.r),
         boxShadow: [
           BoxShadow(
-            color: Colors.grey.withOpacity(0.1),
+            color: Colors.grey.withValues(alpha: 0.3),
             spreadRadius: 1.r,
             blurRadius: 3.r,
           ),
@@ -219,7 +218,7 @@ class ConsultationPage extends StatelessWidget {
         borderRadius: BorderRadius.circular(12.r),
         boxShadow: [
           BoxShadow(
-            color: Colors.grey.withOpacity(0.1),
+            color: Colors.grey.withValues(alpha: 0.3),
             spreadRadius: 1.r,
             blurRadius: 3.r,
           ),
@@ -298,7 +297,7 @@ class ConsultationPage extends StatelessWidget {
         borderRadius: BorderRadius.circular(12.r),
         boxShadow: [
           BoxShadow(
-            color: Colors.grey.withOpacity(0.1),
+            color: Colors.grey.withValues(alpha: 0.3),
             spreadRadius: 1.r,
             blurRadius: 3.r,
           ),
@@ -550,7 +549,7 @@ class ConsultationPage extends StatelessWidget {
               borderRadius: BorderRadius.circular(12.r),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.grey.withOpacity(0.1),
+                  color: Colors.grey.withValues(alpha: 0.1),
                   spreadRadius: 1,
                   blurRadius: 4,
                   offset: const Offset(0, 2),
@@ -834,9 +833,9 @@ class ConsultationPage extends StatelessWidget {
       child: Container(
         height: 120.h,
         decoration: BoxDecoration(
-          color: color.withOpacity(0.1),
+          color: color.withValues(alpha: 0.1),
           borderRadius: BorderRadius.circular(8.r),
-          border: Border.all(color: color.withOpacity(0.3), width: 1.w),
+          border: Border.all(color: color.withValues(alpha: 0.3), width: 1.w),
         ),
         child: Column(
           children: [
@@ -911,7 +910,7 @@ class ConsultationPage extends StatelessWidget {
         borderRadius: BorderRadius.circular(12.r),
         boxShadow: [
           BoxShadow(
-            color: Colors.grey.withOpacity(0.2),
+            color: Colors.grey.withValues(alpha: 0.2),
             spreadRadius: 2,
             blurRadius: 5,
             offset: Offset(0, 3),
@@ -936,7 +935,7 @@ class ConsultationPage extends StatelessWidget {
         borderRadius: BorderRadius.circular(12.r),
         boxShadow: [
           BoxShadow(
-            color: Colors.grey.withOpacity(0.2),
+            color: Colors.grey.withValues(alpha: 0.2),
             spreadRadius: 2,
             blurRadius: 5,
             offset: Offset(0, 3),
@@ -1365,7 +1364,7 @@ class ConsultationPage extends StatelessWidget {
           Container(
             padding: EdgeInsets.all(8.w),
             decoration: BoxDecoration(
-              color: color.withOpacity(0.15),
+              color: color.withValues(alpha: 0.15),
               borderRadius: BorderRadius.circular(8.r),
             ),
             child: Icon(icon, color: color, size: 20.sp),

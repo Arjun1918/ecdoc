@@ -15,11 +15,11 @@ class DeviceHelper {
 
       if (Platform.isAndroid) {
         final info = await _deviceInfo.androidInfo;
-        var infos = '${info.manufacturer} ${info.model} (Android ${info.version.release})';
+        // var infos = '${info.manufacturer} ${info.model} (Android ${info.version.release})';
         return info.name;
       } else if (Platform.isIOS) {
         final info = await _deviceInfo.iosInfo;
-        var infos = '${info.name} ${info.model} (iOS ${info.systemVersion})';
+        // var infos = '${info.name} ${info.model} (iOS ${info.systemVersion})';
         return info.name;
       }
       // else if (Platform.isMacOS) {

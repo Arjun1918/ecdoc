@@ -1,8 +1,6 @@
 import 'package:dio/dio.dart';
-
+import 'package:flutter/cupertino.dart';
 import '../../storage/share_pref/shared_preferences_manager.dart';
-import '../api_urls.dart';
-
 
 class DioClient {
   final SharedPref _sharedPref = SharedPref();
@@ -27,7 +25,7 @@ class DioClient {
         return handler.next(options);
       },
       onError: (DioException e, handler) async {
-        print("on error login");
+        debugPrint("on error login");
         if (e.response?.statusCode == 401) {
           // Try refresh token
           // final refreshed = await _refreshAccessToken();

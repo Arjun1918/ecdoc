@@ -36,7 +36,7 @@ class PatientListScreen extends StatelessWidget {
           borderRadius: BorderRadius.circular(12.r),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.08),
+              color: Colors.black.withValues(alpha: 0.08),
               blurRadius: 15,
               offset: const Offset(0, 4),
             ),
@@ -257,7 +257,7 @@ class PatientListScreen extends StatelessWidget {
         shape: BoxShape.circle,
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.1),
+            color: Colors.black.withValues(alpha: 0.1),
             blurRadius: 3,
             offset: const Offset(0, 1),
           ),
